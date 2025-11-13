@@ -5,7 +5,7 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/products') // endpoint API
+    fetch('/products') // endpoint API
       .then(res => res.json())
       .then(data => {
         setCategories(data);
