@@ -1,8 +1,9 @@
 import { X, Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '@/Contexts/CartContext';
+import { Link } from '@inertiajs/react'; // <-- para redirigir a checkout
 
 export default function CartModal({ isOpen, onClose }) {
-    const { cart, subtotal, total, removeFromCart, updateQuantity, clearCart } = useCart();
+    const { cart, total, removeFromCart, updateQuantity, clearCart } = useCart();
 
     if (!isOpen) return null;
 
@@ -14,7 +15,7 @@ export default function CartModal({ isOpen, onClose }) {
                     className="absolute top-4 right-4 text-gray-500 hover:text-white"
                     onClick={onClose}
                 >
-                    <X size={24}  />
+                    <X size={24} />
                 </button>
 
                 {/* Título + Vaciar carrito */}
@@ -36,7 +37,9 @@ export default function CartModal({ isOpen, onClose }) {
                 {/* Productos */}
                 <div className="flex-1 overflow-y-auto">
                     {cart.length === 0 ? (
-                        <p className="text-gray-500 text-center dark:text-gray-300">El carrito está vacío</p>
+                        <p className="text-gray-500 text-center dark:text-gray-300">
+                            El carrito está vacío
+                        </p>
                     ) : (
                         cart.map(item => (
                             <div key={item.rowId} className="flex justify-between items-center mb-4">
@@ -82,11 +85,19 @@ export default function CartModal({ isOpen, onClose }) {
 
                 {/* Totales */}
                 {cart.length > 0 && (
-                    <div className="mt-4 border-t pt-4">
+                    <div className="mt-4 border-t pt-4 flex flex-col gap-4">
                         <p className="flex justify-between font-bold text-brandBlack dark:text-white mt-2">
                             <span>Total:</span>
                             <span>${total.toFixed(2)}</span>
                         </p>
+
+                        {/* Botón confirmar */}
+                        <Link
+                            href="/checkout"
+                            className="block w-full py-3 text-center bg-brandGold text-brandBlack font-semibold rounded-xl hover:bg-[#bfa333] transition"
+                        >
+                            Confirmar pedido
+                        </Link>
                     </div>
                 )}
             </div>

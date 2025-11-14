@@ -8,16 +8,7 @@ use Cart;
 
 class CartController extends Controller
 {
-    // Ver carrito
-    public function index()
-    {
-        return Inertia::render('Cart/Index', [
-            'cart' => Cart::content()->values(),
-            'cartTotal' => Cart::total(),
-            'cartCount' => Cart::count(),
-        ]);
-    }
-
+  
     public function add(Request $request)
 { 
     Cart::add([

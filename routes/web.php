@@ -34,7 +34,6 @@ Route::prefix('carrito')->group(function () {
     Route::patch('/update/{rowId}', [CartController::class, 'update'])->name('carrito.update');
     Route::delete('/remove/{rowId}', [CartController::class, 'remove'])->name('carrito.remove');
     Route::delete('/clear', [CartController::class, 'clear'])->name('carrito.clear');
-    Route::get('/', [CartController::class, 'index'])->name('carrito.index');
 });
 
 
