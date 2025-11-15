@@ -20,7 +20,6 @@ export default function MapModal({ open, onClose, setAddress }) {
 
     // Cargar la API
     const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: "AIzaSyCc-nHRyt4okNboxJGE1tVO5TgyNpovg9Y", // Tu API Key
         libraries: ["places"]
     });
 
