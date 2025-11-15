@@ -4,10 +4,11 @@ import { Link } from '@inertiajs/react'; // <-- para redirigir a checkout
 
 export default function CartModal({ isOpen, onClose }) {
     const { cart, total, removeFromCart, updateQuantity, clearCart } = useCart();
-
+console.log("DEBUG CartModal: cart =", cart, "total =", total);
     if (!isOpen) return null;
 
     return (
+        
         <div className="fixed inset-0 bg-black/50 flex justify-end z-50">
             <div className="bg-white dark:bg-zinc-800 w-full sm:w-96 h-full p-6 relative flex flex-col">
                 {/* Cerrar modal */}

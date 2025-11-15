@@ -1,5 +1,5 @@
 import { CartProvider } from '@/Contexts/CartContext';
-import CheckoutPageContent from '@/Components/checkout/CheckoutPageContent';
+import CheckoutPageContent from '@/Pages/checkout.jsx';
 
 export default function CheckoutWrapper(props) {
     return (
