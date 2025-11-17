@@ -7,6 +7,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\SocialController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminControllerDashboard;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -40,6 +42,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Endpoint para crear pedido
     Route::post('/orders/store', [PedidosController::class, 'store'])->name('orders.store');
+});
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+    Route::middleware('auth:admin')->group(function () {
+
+        Route::get('/dashboard', [AdminControllerDashboard::class, 'index']);
+
+        // Categorías
+        Route::get('/categories/paginate', [AdminControllerDashboard::class, 'paginateCategories']);
+        Route::post('/categories',          [AdminControllerDashboard::class, 'storeCategory']);
+        Route::put('/categories/{category}', [AdminControllerDashboard::class, 'updateCategory']);
+        Route::delete('/categories/bulk-delete', [AdminControllerDashboard::class, 'bulkDeleteCategories']);
+
+    });
 });
 
 
