@@ -14,6 +14,7 @@ export default function ProductCard({
         hover:scale-105 hover:shadow-2xl
         transition-all duration-300
         font-poppins
+        
       `}
     >
       {/* Cinta de Agotado */}
@@ -33,7 +34,7 @@ export default function ProductCard({
       </div>
 
       {/* Imagen del producto */}
-      <div className="w-full h-64 sm:h-72 lg:h-80 overflow-hidden rounded-t-2xl">
+      <div className="w-full h-80 sm:h-72 lg:h-[25rem] overflow-hidden rounded-t-2xl">
         <img
           src={product.image || "https://via.placeholder.com/600x400"}
           alt={product.name}
@@ -59,10 +60,9 @@ export default function ProductCard({
           {/* Stock */}
           <span
             className={`px-4 py-2 text-base font-bold rounded-full border font-poppins
-              ${
-                isOutOfStock
-                  ? "bg-red-600 text-white border-red-700"
-                  : "bg-[#D4AF37]/20 text-[#D4AF37] border-[#D4AF37]"
+              ${isOutOfStock
+                ? "bg-red-600 text-white border-red-700"
+                : "bg-[#D4AF37]/20 text-[#D4AF37] border-[#D4AF37]"
               }
             `}
           >
@@ -82,10 +82,9 @@ export default function ProductCard({
           className={`
             mt-3 w-full py-3 rounded-xl text-xl font-extrabold tracking-wider
             transition-all shadow-lg font-poppins
-            ${
-              addingId === product.id
-                ? "bg-gray-600 text-white cursor-not-allowed"
-                : successId === product.id
+            ${addingId === product.id
+              ? "bg-gray-600 text-white cursor-not-allowed"
+              : successId === product.id
                 ? "bg-red-700 text-[#D4AF37]"
                 : "bg-red-600 text-[#D4AF37] hover:bg-red-700"
             }
@@ -94,10 +93,10 @@ export default function ProductCard({
           {isOutOfStock
             ? "No disponible"
             : addingId === product.id
-            ? "Agregando..."
-            : successId === product.id
-            ? "¡Agregado!"
-            : "Agregar al carrito"}
+              ? "Agregando..."
+              : successId === product.id
+                ? "¡Agregado!"
+                : "Agregar al carrito"}
         </button>
       </div>
     </div>
