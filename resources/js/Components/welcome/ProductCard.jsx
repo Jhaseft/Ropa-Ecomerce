@@ -14,7 +14,6 @@ export default function ProductCard({
         hover:scale-105 hover:shadow-2xl
         transition-all duration-300
         font-poppins
-        
       `}
     >
       {/* Cinta de Agotado */}
@@ -24,9 +23,7 @@ export default function ProductCard({
         </div>
       )}
 
-    
-
-      {/* Imagen del producto */}
+      {/* Imagen */}
       <div className="w-full h-80 sm:h-72 lg:h-[25rem] overflow-hidden rounded-t-2xl">
         <img
           src={product.image || "https://via.placeholder.com/600x400"}
@@ -38,7 +35,7 @@ export default function ProductCard({
       {/* Contenido */}
       <div className="p-5 flex flex-col gap-4">
 
-        {/* Título en Playfair Display */}
+        {/* Nombre */}
         <h3 className="text-3xl font-extrabold text-[#D4AF37] leading-tight tracking-wide drop-shadow-md font-playfair">
           {product.name}
         </h3>
@@ -48,21 +45,20 @@ export default function ProductCard({
           {product.description}
         </p>
 
-        <div className="flex items-center justify-between mt-2 ">
+        <div className="flex items-center justify-between mt-2">
 
-          {/* Stock */}
-          <span
-            className={`px-2 py-2 text-xs sm:text-base font-bold rounded-full border font-poppins
-    ${isOutOfStock
-                ? "bg-red-600 text-white border-red-700"
-                : "bg-[#D4AF37]/20 text-[#D4AF37] border-[#D4AF37]"
-              }
-  `}
-          >
-            {isOutOfStock ? "Sin stock" : `Stock: ${product.stock}`}
-          </span>
+          {/* YA NO MOSTRAMOS STOCK AQUÍ 
+              Solo cuando está agotado, pero eso ya se muestra arriba con la cinta */}
+          {isOutOfStock ? (
+            <span className="px-2 py-2 text-xs sm:text-base font-bold rounded-full border
+              bg-red-600 text-white border-red-700 font-poppins">
+              Sin stock
+            </span>
+          ) : (
+            <span></span> // vacío y no ocupa espacio
+          )}
 
-          {/* Precio en Playfair */}
+          {/* Precio */}
           <p className="text-3xl font-black text-[#D4AF37] drop-shadow-lg font-playfair">
             Bs {Number(product.price).toFixed(2)}
           </p>
