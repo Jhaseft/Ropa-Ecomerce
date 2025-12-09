@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Head, router } from "@inertiajs/react";
 import ProductFormModal from "@/Components/admin/Categorias/ProductFormModal";
+import ProductVariantsModal from "@/Components/admin/Categorias/ProductVariantsModal";
 
 export default function CategoryProducts({ category, products }) {
   const [productList, setProductList] = useState(products.data);
@@ -8,7 +9,13 @@ export default function CategoryProducts({ category, products }) {
   const [editingProduct, setEditingProduct] = useState(null);
   const [fullscreenMessage, setFullscreenMessage] = useState(null); // mensaje fullscreen
   const [deleting, setDeleting] = useState(false); // spinner durante eliminación
+  const [variantModalOpen, setVariantModalOpen] = useState(false);
+const [currentProduct, setCurrentProduct] = useState(null);
 
+  const handleOpenVariantsModal = (product) => {
+  setCurrentProduct(product);
+  setVariantModalOpen(true);
+};
   // Guardar producto
   const handleSaveProduct = (savedProduct, isEdit) => {
     if (isEdit) {
@@ -71,7 +78,7 @@ export default function CategoryProducts({ category, products }) {
       <div className="flex justify-between items-center mb-6">
         <button
           className="px-4 py-2 bg-gray-800 text-white rounded-xl shadow hover:bg-gray-900"
-          onClick={() =>  router.visit('/admin/dashboard')}
+          onClick={() => router.visit('/admin/dashboard')}
         >
           ← Volver
         </button>
@@ -104,7 +111,7 @@ export default function CategoryProducts({ category, products }) {
           >
             <div className="w-full h-64 sm:h-72 lg:h-80 overflow-hidden">
               <img
-                src={product.image || "https://via.placeholder.com/600x400"}
+                src={product.multimedia?.[0]?.url || "https://via.placeholder.com/600x400"}
                 alt={product.name}
                 className="w-full h-full object-cover object-center"
               />
@@ -117,9 +124,7 @@ export default function CategoryProducts({ category, products }) {
               <p className="text-gray-500 dark:text-gray-300 mt-1 text-sm sm:text-base">
                 {product.description || "Sin descripción"}
               </p>
-              <p className="text-gray-700 dark:text-gray-100 mt-2">
-                Stock: {product.stock}
-              </p>
+
               <p className="text-gray-700 dark:text-gray-100 mt-2 font-bold text-base sm:text-lg">
                 Bs {Number(product.price).toFixed(2)}
               </p>
@@ -130,6 +135,12 @@ export default function CategoryProducts({ category, products }) {
                   onClick={() => { setEditingProduct(product); setModalOpen(true); }}
                 >
                   Editar
+                </button>
+                <button
+                  className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                  onClick={() => handleOpenVariantsModal(product)}
+                >
+                  Asignar variantes
                 </button>
                 <button
                   className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
@@ -171,6 +182,13 @@ export default function CategoryProducts({ category, products }) {
           product={editingProduct}
           onClose={() => setModalOpen(false)}
           onSave={handleSaveProduct}
+        />
+      )}
+
+      {variantModalOpen && currentProduct && (
+        <ProductVariantsModal
+          product={currentProduct}
+          onClose={() => setVariantModalOpen(false)}
         />
       )}
     </section>

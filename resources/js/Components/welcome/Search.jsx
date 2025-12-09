@@ -13,9 +13,8 @@ export default function SearchBar({ onSearch }) {
   return (
     <div className="w-full max-w-xl mx-auto mb-10">
       <div className="relative">
-
-        {/* Ícono dorado */}
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4AF37] w-6 h-6" />
+        {/* Ícono negro */}
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black w-6 h-6" />
 
         <input
           type="text"
@@ -25,15 +24,15 @@ export default function SearchBar({ onSearch }) {
           className="
             w-full pl-14 pr-4 py-3 
             rounded-2xl 
-            border border-[#E6372A]
-            bg-black
-            text-white
-            placeholder-gray-400
-            shadow-lg
+            border border-gray-300
+            bg-white
+            text-black
+            placeholder-gray-500
+            shadow-sm
 
             focus:outline-none 
-            focus:ring-2 focus:ring-[#D4AF37]  /* aro dorado */
-            focus:border-[#E6372A]             /* borde rojo */
+            focus:ring-2 focus:ring-black
+            focus:border-black
             transition-all duration-300
           "
         />

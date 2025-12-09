@@ -10,6 +10,7 @@ use App\Http\Controllers\SocialController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminControllerDashboard;
 use App\Http\Controllers\AdminCategoryProductsController;
+use App\Http\Controllers\AdminProductVariantsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
 use Inertia\Inertia;
@@ -66,6 +67,24 @@ Route::prefix('admin')->group(function () {
     Route::post('/products', [AdminCategoryProductsController::class, 'store']);
     Route::put('/products/{product}', [AdminCategoryProductsController::class, 'update']);
     Route::delete('/products/{product}', [AdminCategoryProductsController::class, 'destroy']);
+
+
+// Obtener atributos y variantes de un producto
+Route::get('/products/{product}/attributes', [AdminProductVariantsController::class, 'getAttributes'])
+    ->name('admin.products.attributes');
+
+// Crear nuevas variantes (POST)
+Route::post('/products/{product}/variants', [AdminProductVariantsController::class, 'store'])
+    ->name('admin.products.variants.store');
+
+// Actualizar variante existente (PUT)
+Route::put('/variants/{variant}', [AdminProductVariantsController::class, 'update'])
+    ->name('admin.variants.update');
+
+// Eliminar variante (DELETE)
+Route::delete('/variants/{variant}', [AdminProductVariantsController::class, 'destroy'])
+    ->name('admin.variants.destroy');
+
 
 //mostar estados y metodos de pago
 Route::get('/orders/meta', [OrderController::class, 'meta']);

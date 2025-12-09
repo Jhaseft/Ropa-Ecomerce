@@ -19,6 +19,7 @@ export const CartProvider = ({ children }) => {
         const sub = (data.cart || []).reduce((acc, item) => acc + item.price * item.qty, 0);
         setSubtotal(sub);
         setTotal(sub);
+        console.log("Carrito inicial cargado:", data);
       })
       .catch(err => console.error(err));
   }, []);
@@ -54,8 +55,10 @@ export const CartProvider = ({ children }) => {
             "X-CSRF-TOKEN": csrfToken,
           },
           body: JSON.stringify(product),
+          
         });
         const data = await res.json();
+        console.log("Respuesta al agregar al carrito:", data);
         if (data.success) {
           setCart(data.cart || []);
           setCartCount(data.cartCount);

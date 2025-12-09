@@ -11,9 +11,9 @@ export default function Layout({ title, auth, children }) {
 
   return (
     <CartProvider>
-      <Head title={title || "Carrito de Compras"} />
+      <Head title={title || "Tienda de Ropa"} />
 
-      <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-zinc-900 relative">
+      <div className="min-h-screen flex flex-col bg-white text-black relative">
         <Header auth={auth} />
         <main className="flex-1 container mx-auto px-6 py-10">
           {children}
@@ -22,7 +22,10 @@ export default function Layout({ title, auth, children }) {
 
         {/* Carrito */}
         <div className="fixed bottom-6 right-6 z-[9999]">
-          <CartIcon onClick={() => setCartOpen(true)} />
+          <CartIcon
+            className="text-black hover:text-gray-800 transition"
+            onClick={() => setCartOpen(true)}
+          />
         </div>
 
         {/* Modal del carrito */}
@@ -34,14 +37,14 @@ export default function Layout({ title, auth, children }) {
 
         {/* Botón WhatsApp */}
         <a
-          href="https://wa.me/63736494"
+          href="https://wa.me/75985891"
           target="_blank"
-          className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-green-500 shadow-xl flex items-center justify-center hover:bg-green-600 transition z-[9999]"
+          className="fixed bottom-12 right-6 w-16 h-16 rounded-full bg-black shadow-xl flex items-center justify-center hover:bg-gray-800 transition z-[1000]"
         >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
             alt="WhatsApp"
-            className="w-8 h-8"
+            className="w-8 h-8 filter brightness-0 invert"
           />
         </a>
       </div>

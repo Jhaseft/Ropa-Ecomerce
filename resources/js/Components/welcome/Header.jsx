@@ -17,29 +17,32 @@ export default function Header({ auth }) {
 
   return (
     <>
-      <header className="w-full bg-black text-white shadow-lg py-4 border-b-2 border-[#D4AF37]">
+      <header className="w-full bg-white text-black shadow-lg py-4 border-b-2 border-black">
         <div className="container mx-auto flex justify-between items-center px-6">
-          
+
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-3">
             <img
-              src="https://res.cloudinary.com/dcmjhycsr/image/upload/v1763822761/Captura_de_pantalla_2025-11-22_102201-removebg-preview_2_wllmrp.png"
-              alt="Logo de la empresa"
+              src="https://res.cloudinary.com/dnbklbswg/image/upload/v1765267450/exclusive-removebg-preview_x68ft5.png"
+              alt="Logo de la tienda"
               className="h-20 w-40 md:h-40 md:w-72 object-contain transition-transform duration-300 hover:scale-105 drop-shadow-lg"
             />
           </Link>
 
           {/* NAV */}
           <nav className="flex md:text-xl md:gap-10 text-xs gap-1 font-medium">
-            {/* Aquí puedes agregar otros enlaces de navegación si los tienes */}
             <Link
               href="/contacto"
-              className="relative hover:text-[#D4AF37] transition duration-300 
-                         after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 
-                         after:bg-[#D4AF37] after:transition-all after:duration-300 hover:after:w-full"
+              className="relative text-xl font-semibold text-black transition duration-300 
+             hover:text-gray-800
+             after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 
+             after:bg-black after:transition-all after:duration-300 hover:after:w-full"
+              style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '1px' }}
             >
               Contacto
             </Link>
+
+
           </nav>
         </div>
       </header>
@@ -48,7 +51,7 @@ export default function Header({ auth }) {
       {flashMessage && (
         <div
           className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 
-            ${flashMessage.type === 'success' ? 'bg-[#D4AF37] text-black' : 'bg-[#D92323] text-white'} 
+            ${flashMessage.type === 'success' ? 'bg-black text-white' : 'bg-red-600 text-white'} 
             px-6 py-4 rounded-lg shadow-xl animate-slideDown`}
         >
           {flashMessage.message}

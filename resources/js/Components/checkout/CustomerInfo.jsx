@@ -1,15 +1,14 @@
 export default function CustomerInfoForm({ customerName, setCustomerName, customerPhone, setCustomerPhone }) {
     // Reglas: máximo 50 caracteres para nombre, solo letras y espacios
     const handleNameChange = (e) => {
-    const value = e.target.value;
-    // Permite letras, espacios, acentos y ñ
-    if (/^[a-zA-ZÀ-ÿñÑ\s]*$/.test(value) && value.length <= 50) {
-        setCustomerName(value);
-    }
-};
+        const value = e.target.value;
+        // Permite letras, espacios, acentos y ñ
+        if (/^[a-zA-ZÀ-ÿñÑ\s]*$/.test(value) && value.length <= 50) {
+            setCustomerName(value);
+        }
+    };
 
-
-    // Reglas: máximo 10 caracteres para teléfono, solo números
+    // Reglas: máximo 15 caracteres para teléfono, solo números
     const handlePhoneChange = (e) => {
         const value = e.target.value;
         if (/^\d*$/.test(value) && value.length <= 15) {
@@ -18,31 +17,37 @@ export default function CustomerInfoForm({ customerName, setCustomerName, custom
     };
 
     return (
-        <div className="border border-gray-700 p-4 rounded mb-4">
-            <h3 className="font-semibold mb-2 text-white">Datos del Cliente</h3>
+        <div className="bg-white border border-gray-300 rounded-2xl p-6 mb-6 shadow-lg">
+            <h3 className="text-black font-bold text-2xl mb-5 border-b border-gray-300 pb-3">
+                Datos del Cliente
+            </h3>
 
-            <label className="block text-gray-300 mb-1">Nombre completo</label>
-            <input
-                type="text"
-                value={customerName}
-                onChange={handleNameChange}
-                className="w-full p-2 rounded bg-black text-white mb-2 border border-gray-600"
-                placeholder="Ingresa tu nombre"
-                required
-            />
+            <div className="mb-5">
+                <label className="block text-gray-700 mb-2 font-medium">Nombre completo</label>
+                <input
+                    type="text"
+                    value={customerName}
+                    onChange={handleNameChange}
+                    placeholder="Ingresa tu nombre"
+                    className="w-full p-3 rounded-xl bg-gray-100 text-black border border-gray-300 focus:border-black focus:ring-1 focus:ring-black outline-none transition"
+                    required
+                />
+            </div>
 
-            <label className="block text-gray-300 mb-1">Número de teléfono</label>
-            <input
-                type="text"
-                value={customerPhone}
-                onChange={handlePhoneChange}
-                className="w-full p-2 rounded bg-black text-white mb-2 border border-gray-600"
-                placeholder="Ingresa tu número"
-                required
-            />
+            <div className="mb-5">
+                <label className="block text-gray-700 mb-2 font-medium">Número de teléfono</label>
+                <input
+                    type="text"
+                    value={customerPhone}
+                    onChange={handlePhoneChange}
+                    placeholder="Ingresa tu número"
+                    className="w-full p-3 rounded-xl bg-gray-100 text-black border border-gray-300 focus:border-black focus:ring-1 focus:ring-black outline-none transition"
+                    required
+                />
+            </div>
 
-            <p className="text-gray-400 text-sm">
-                Estos datos se usarán para tu pedido. No se requieren inicio de sesión.
+            <p className="text-gray-500 text-sm">
+                Estos datos se usarán para tu pedido. No se requiere iniciar sesión.
             </p>
         </div>
     );

@@ -20,16 +20,6 @@ export default function Products() {
 
   const priorityCategories = ['Destacados', 'Ofertas'];
 
-  const EagleIcon = ({ size = 60 }) => (
-    <img
-      src="https://res.cloudinary.com/dcmjhycsr/image/upload/v1763825595/Captura_de_pantalla_2025-11-22_102220-removebg-preview_eur39c.png"
-      alt="Águila"
-      width={size}
-      height={size}
-      style={{ display: 'inline-block' }}
-    />
-  );
-
   useEffect(() => {
     setLoading(true);
     fetch('/products')
@@ -55,7 +45,8 @@ export default function Products() {
   }, []);
 
   const handleAddToCart = async (product) => {
-    if (product.stock === 0) return;
+    const totalStock = product.variants?.reduce((sum, v) => sum + v.stock, 0) || 0;
+    if (totalStock === 0) return;
 
     setAddingId(product.id);
     await addToCart({
@@ -73,7 +64,7 @@ export default function Products() {
 
   if (loading) {
     return (
-      <p className="text-center mt-8 text-[#D4AF37] text-xl animate-pulse">
+      <p className="text-center mt-8 text-gray-500 text-xl animate-pulse">
         Cargando productos...
       </p>
     );
@@ -84,7 +75,7 @@ export default function Products() {
     : categories;
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 text-white">
+    <section className="px-4 sm:px-6 lg:px-8 text-black">
 
       <SearchBar onSearch={setSearchTerm} />
 
@@ -95,37 +86,34 @@ export default function Products() {
       />
 
       {displayedCategories.map((category, idx) => {
-        const filteredProducts = category.products.filter(product => {
-          const name = (product.name ?? "").toLowerCase();
-          const search = searchTerm.toLowerCase();
-          return name.includes(search);
-        });
+        const filteredProducts = category.products.filter(product =>
+          (product.name ?? "").toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
         const hasChildren = category.children && category.children.length > 0;
 
         return (
           <div key={category.id} className="mb-12">
 
-            {idx !== 0 && (
-              <div className="my-10 flex items-center gap-4">
-                <div className="flex-1 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent"></div>
-              </div>
-            )}
+            {idx !== 0 && <hr className="border-gray-300 my-12" />}
 
-            <div className="relative mb-8 select-none">
-              <div className="absolute -top-3 left-0 w-28 h-1 bg-gradient-to-r from-[#D4AF37] to-[#f8e7a3] shadow-[0_0_10px_#D4AF37] rounded-full"></div>
-              <h2 className="md:text-5xl text-4xl font-extrabold italic flex items-center gap-4 tracking-wide drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#fcefc2]">
-                <EagleIcon />
+            <div className="relative mb-6">
+              <h2
+                className="
+                              text-4xl md:text-5xl font-bold text-black 
+                              tracking-[2px] uppercase pl-4 py-2
+                              border-l-[6px] border-black
+                            "
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
                 {category.name}
               </h2>
-              <div className="mt-3 h-1 w-full bg-gradient-to-r from-[#D4AF37]/90 to-transparent rounded-full shadow-[0_0_10px_#D4AF37]"></div>
+              {category.description && (
+                <p className="text-gray-600 mt-2 italic pl-2">
+                  {category.description}
+                </p>
+              )}
             </div>
-
-            {category.description && (
-              <p className="text-gray-300 mb-8 text-lg italic pl-2">
-                {category.description}
-              </p>
-            )}
 
             {filteredProducts.length > 0 && (
               <CategorySwiper
@@ -136,20 +124,36 @@ export default function Products() {
               />
             )}
 
-            {hasChildren && category.children.map((sub) => (
-              <div key={sub.id} className="mt-10">
-                <h3 className="text-3xl font-bold italic text-[#D4AF37] mb-4 pl-2">
-                  {sub.name}
-                </h3>
+            {hasChildren && category.children.map((sub, subIdx) => {
+              const filteredSubProducts = sub.products.filter(product =>
+                product.name.toLowerCase().includes(searchTerm.toLowerCase())
+              );
 
-                <CategorySwiper
-                  products={sub.products || []}
-                  handleAddToCart={handleAddToCart}
-                  addingId={addingId}
-                  successId={successId}
-                />
-              </div>
-            ))}
+              return (
+                <div key={sub.id} className="mt-12">
+                  <h3
+                    className="
+                        text-2xl mb-10 md:text-3xl font-semibold text-gray-900 
+                        tracking-wide pl-3 border-l-4 border-black
+                      "
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    {sub.name}
+                  </h3>
+
+                  {filteredSubProducts.length > 0 && (
+                    <CategorySwiper
+                      products={filteredSubProducts}
+                      handleAddToCart={handleAddToCart}
+                      addingId={addingId}
+                      successId={successId}
+                    />
+                  )}
+
+                  {subIdx !== category.children.length - 1 && <hr className="border-gray-200 mt-8" />}
+                </div>
+              );
+            })}
 
           </div>
         );
@@ -167,10 +171,10 @@ function CategorySwiper({ products, handleAddToCart, addingId, successId }) {
     <Swiper
       className="z-[1]"
       modules={[Navigation, Pagination, Autoplay]}
-      spaceBetween={20}
+      spaceBetween={24}
       slidesPerView={1}
       navigation
-      autoplay={{ delay: 2500, disableOnInteraction: false }}
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
       breakpoints={{
         640: { slidesPerView: 2 },
         768: { slidesPerView: 2 },

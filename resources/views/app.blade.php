@@ -10,7 +10,7 @@
 
         <!-- Favicon -->
         <link rel="icon" href="https://res.cloudinary.com/dcmjhycsr/image/upload/v1763821996/Captura_de_pantalla_2025-11-22_102220_m1w7th.png" type="image/png">
-
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
         <!-- Meta Open Graph para redes sociales -->
         <meta property="og:title" content="Distribuidora Aguilar" />
         <meta property="og:description" content="Licores de calidad: Bacardi, Vodka, Ron y más" />

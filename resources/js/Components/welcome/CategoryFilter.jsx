@@ -4,11 +4,11 @@ export default function CategoryFilter({ categories, selectedCategory, onSelectC
 
       {/* BOTÓN "TODAS" */}
       <button
-        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 
+        className={`px-5 py-2 rounded-full font-medium transition-all duration-300
           ${
             selectedCategory === ''
-              ? 'bg-[#D4AF37] text-black shadow-md'   // DORADO seleccionado
-              : 'bg-[#E6372A] text-white hover:bg-[#c22d22] hover:shadow-lg' // ROJO vivo
+              ? 'bg-black text-white shadow-md'    // Seleccionado → negro
+              : 'bg-white text-black border border-black hover:bg-gray-200 hover:shadow-md' // No seleccionado
           }`}
         onClick={() => onSelectCategory('')}
       >
@@ -22,8 +22,8 @@ export default function CategoryFilter({ categories, selectedCategory, onSelectC
           className={`px-5 py-2 rounded-full font-medium transition-all duration-300
             ${
               selectedCategory === cat.name
-                ? 'bg-[#D4AF37] text-black shadow-md'  // Seleccionado → dorado
-                : 'bg-[#E6372A] text-white hover:bg-[#c22d22] hover:shadow-lg' // Rojo corporativo
+                ? 'bg-black text-white shadow-md'   // Seleccionado → negro
+                : 'bg-white text-black border border-black hover:bg-gray-200 hover:shadow-md' // No seleccionado
             }`}
           onClick={() => onSelectCategory(cat.name)}
         >

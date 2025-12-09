@@ -4,88 +4,93 @@ export default function ProductCard({
   addingId,
   successId,
 }) {
-  const isOutOfStock = product.stock === 0;
+  const totalStock = product.variants?.reduce((sum, v) => sum + v.stock, 0) || 0;
+  const isOutOfStock = totalStock === 0;
+  const imageUrl = product.image || "https://via.placeholder.com/600x400";
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl shadow-xl border
-        ${isOutOfStock ? "border-red-600 opacity-80" : "border-[#D4AF37]"}
-        bg-gray-900 text-white
-        hover:scale-105 hover:shadow-2xl
+      className={`relative overflow-hidden rounded-2xl shadow-md border
+        ${isOutOfStock ? "border-black opacity-80" : "border-gray-300"}
+        bg-white text-black
+        hover:scale-[1.03] hover:shadow-lg
         transition-all duration-300
-        font-poppins
+        font-playfair
       `}
     >
-      {/* Cinta de Agotado */}
       {isOutOfStock && (
-        <div className="absolute top-3 left-0 bg-red-600 text-[#D4AF37] px-4 py-1 text-base font-extrabold rounded-r-lg shadow-md z-10 font-poppins">
+        <div className="absolute top-3 left-0 bg-white text-black px-4 py-1 text-lg font-bold rounded-r-lg shadow-md z-10">
           AGOTADO
         </div>
       )}
 
-      {/* Imagen */}
       <div className="w-full h-80 sm:h-72 lg:h-[25rem] overflow-hidden rounded-t-2xl">
         <img
-          src={product.image || "https://via.placeholder.com/600x400"}
+          src={imageUrl}
           alt={product.name}
           className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
         />
       </div>
 
-      {/* Contenido */}
-      <div className="p-5 flex flex-col gap-4">
-
-        {/* Nombre */}
-        <h3 className="text-3xl font-extrabold text-[#D4AF37] leading-tight tracking-wide drop-shadow-md font-playfair">
+      <div className="p-6 flex flex-col gap-5">
+        <h3 className="text-3xl font-extrabold text-black leading-tight tracking-wide uppercase">
           {product.name}
         </h3>
 
-        {/* Descripción */}
-        <p className="text-gray-300 text-lg leading-relaxed font-poppins">
+        <p className="text-gray-700 text-lg leading-relaxed font-light">
           {product.description}
         </p>
 
-        <div className="flex items-center justify-between mt-2">
+        {product.variants?.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {product.variants.map(v => (
+              <span
+                key={v.id}
+                className={`px-3 py-1 text-sm font-semibold rounded-full border
+                  ${
+                    v.stock === 0
+                      ? "bg-black text-white border-black"
+                      : "bg-white border-black text-black"
+                  }`}
+              >
+                {v.values.map(val => `${val.attribute}: ${val.value}`).join(", ")} ({v.stock})
+              </span>
+            ))}
+          </div>
+        )}
 
-          {/* YA NO MOSTRAMOS STOCK AQUÍ 
-              Solo cuando está agotado, pero eso ya se muestra arriba con la cinta */}
-          {isOutOfStock ? (
-            <span className="px-2 py-2 text-xs sm:text-base font-bold rounded-full border
-              bg-red-600 text-white border-red-700 font-poppins">
+        <div className="flex items-center justify-between mt-3">
+          {isOutOfStock && (
+            <span className="px-3 py-1 text-sm font-semibold rounded-full border bg-white text-black border-black shadow-sm">
               Sin stock
             </span>
-          ) : (
-            <span></span> // vacío y no ocupa espacio
           )}
 
-          {/* Precio */}
-          <p className="text-3xl font-black text-[#D4AF37] drop-shadow-lg font-playfair">
+          <p className="text-3xl font-extrabold text-black tracking-wide">
             Bs {Number(product.price).toFixed(2)}
           </p>
         </div>
 
-        {/* Botón */}
         <button
           onClick={() => handleAddToCart(product)}
           disabled={addingId === product.id || isOutOfStock}
-          className={`
-            mt-3 w-full py-3 rounded-xl text-xl font-extrabold tracking-wider
-            transition-all shadow-lg font-poppins
-            ${addingId === product.id
-              ? "bg-gray-600 text-white cursor-not-allowed"
-              : successId === product.id
-                ? "bg-red-700 text-[#D4AF37]"
-                : "bg-red-600 text-[#D4AF37] hover:bg-red-700"
-            }
-          `}
+          className={`mt-3 w-full py-3 rounded-xl text-xl font-bold tracking-wider
+            transition-all shadow-md uppercase
+            ${
+              addingId === product.id
+                ? "bg-gray-500 text-white cursor-not-allowed"
+                : successId === product.id
+                ? "bg-black text-white"
+                : "bg-black text-white hover:bg-gray-900"
+            }`}
         >
           {isOutOfStock
             ? "No disponible"
             : addingId === product.id
-              ? "Agregando..."
-              : successId === product.id
-                ? "¡Agregado!"
-                : "Agregar al carrito"}
+            ? "Agregando..."
+            : successId === product.id
+            ? "¡Agregado!"
+            : "Agregar al carrito"}
         </button>
       </div>
     </div>
