@@ -19,7 +19,7 @@ class AdminControllerDashboard extends Controller
 
        $categories = Category::withCount('products')
     ->with(['children' => function($query) {
-        $query->withCount('products'); // 🔥 agrega products_count a los hijos
+        $query->withCount('products'); //  agrega products_count a los hijos
     }])
     ->whereNull('parent_id')
     ->when($search, function($query, $search) {
@@ -113,12 +113,48 @@ class AdminControllerDashboard extends Controller
     }
 
     private function deleteCategoryRecursively(Category $category)
-    {
-        foreach ($category->children as $child) {
-            $this->deleteCategoryRecursively($child);
+{
+    // Cargar todo lo relacionado antes de borrar
+    $category->load([
+        'children',
+        'products.variants.values',
+        'products.multimedia',
+        'products.variants'
+    ]);
+
+    /**
+     * 1. Borrar productos y TODA su estructura
+     */
+    foreach ($category->products as $product) {
+
+        // 1.1 borrar multimedia del producto
+        $product->multimedia()->delete();
+
+        // 1.2 borrar variantes y sus valores pivot
+        foreach ($product->variants as $variant) {
+            // borrar pivotes en product_variant_values
+            $variant->values()->detach();
+            // borrar la variante
+            $variant->delete();
         }
-        $category->delete();
+
+        // 1.3 borrar el producto
+        $product->delete();
     }
+
+    /**
+     * 2. Borrar subcategorías recursivamente
+     */
+    foreach ($category->children as $child) {
+        $this->deleteCategoryRecursively($child);
+    }
+
+    /**
+     * 3. Finalmente borrar categoría
+     */
+    $category->delete();
+}
+
 
     /**
      * Paginación vía AJAX (React) para categorías raíz

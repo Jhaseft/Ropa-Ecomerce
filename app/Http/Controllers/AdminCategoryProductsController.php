@@ -107,17 +107,22 @@ class AdminCategoryProductsController extends Controller
 ]);
 }
 
-    public function destroy(Product $product)
+  public function destroy(Product $product)
 {
     // Eliminar multimedia
     $product->multimedia()->delete();
 
-    // Eliminar variantes y sus valores
+    // Eliminar variantes y desvincular valores
     foreach ($product->variants as $variant) {
-        $variant->values()->delete();
+
+        // Importante: eliminar del pivote, NO borrar attribute_values
+        $variant->values()->detach();
+
+        // borrar la variante
         $variant->delete();
     }
 
+    // Finalmente borrar el producto
     $product->delete();
 
     return response()->json(['status' => 'success']);
